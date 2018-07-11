@@ -10,7 +10,7 @@ const ProductList = ({onDelete, products}) => {
         }, {
             title: "Actions",
             render: (text, record) => {
-                return (
+                return (//这个Popconfirm是ant-design里的一个表单验证的组件
                     <Popconfirm title="Delete?" onConfirm={() => onDelete(record.id)}>
                         <Button>Delete</Button>
                     </Popconfirm>
