@@ -14,7 +14,9 @@
 
 <script>
   import childComponent from './components/childComponent'
-  import EventBus from './components/EventsBus'
+  import {mapActions } from 'vuex';
+  import store from './store'
+
 
   export default {
   components: {childComponent},//位置一定要放最前面才行
@@ -32,11 +34,21 @@
         label: this.newItem,
         isFinished: false
       })
-      this.newItem = '';//这里也是双向绑定，在这里重置后会同步显示到input控件
-      EventBus.$emit("msg-from-parent", this.items);
+        this.newItem = '';//这里也是双向绑定，在这里重置后会同步显示到input控件
+
+      //this.$store.dispatch('switch_dialog',this.items);
+      //this.$store.dispatch({type: 'switch_dialog', show: this.items})
+      this.$store.commit('switch_dialog',this.items)
+      console.log("3333333333")
+      console.log(this.$store.state.dialog.show);
 
     },
-    // listenToSon: function (msg) {
+    //this.$store.dispatch('switch_dialog',items)
+    // ...mapActions({
+    //
+    // })
+
+  // listenToSon: function (msg) {
     //   this.wordsfromchild = msg;
     // }
 

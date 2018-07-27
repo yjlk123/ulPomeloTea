@@ -6,6 +6,7 @@
 </template>
 
 <script>
+
   export default {
     name: "footerA",
     props: ['msgfromfather'],//字符串的形式
@@ -17,6 +18,9 @@
     methods:{
       onClickMe: function () {
         console.log(this.msgfromfather);//这样访问父组件传过来的数据，和一般的data一样的方式
+        //   console.log(items);
+        // });
+
       }
     }
 
