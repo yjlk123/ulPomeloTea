@@ -1,0 +1,116 @@
+foo(arr, n){
+                let dep = 0;
+                dep++;
+                if(n < 0){
+                    return;
+                }
+                if(dep<= n)
+                {
+                    for(let i = 0; i < arr.length; i++){
+                        console.log(arr[i].name);
+                        console.log(n);
+                        if(arr[i].childs){
+                            //n = n - 1;
+                            this.foo(arr[i].childs,n-1 );
+                        }
+                    }
+                    //dep--; //没有用到，为了调试存在
+                }
+                //console.log("函数一次完整调用结束");
+            }
+
+
+void main(){
+ let flag=3;
+            let n = flag;
+            this.foo(arr, n);
+
+}
+
+
+
+//测试的数组：
+
+
+            let arr = [{
+                "code": "21",
+                "name": "辽宁省",//1级
+                "childs": [{
+                    "code": "2101",
+                    "name": "沈阳市",//2级
+                    "childs": [{
+                        "code": "210102",
+                        "name": "和平区",//3级
+                        "childs": [{
+                            "code": "211481",
+                            "name": "12345市",//4级
+                            "childs": [{
+                                "code": "211481",
+                                "name": "6666666市",//5级
+                                "childs": []
+                            }]
+                        }]
+                    }, ]
+                }, {
+                    "code": "2102",
+                    "name": "大连市",//2级
+                    "childs": [{
+                        "code": "210202",
+                        "name": "中山区",//3级
+                        "childs": []
+                    }, {
+                        "code": "210283",
+                        "name": "庄河市",//3级
+                        "childs": []
+                    }]
+                }, {
+                    "code": "2114",
+                    "name": "葫芦岛市",//2级
+                    "childs": [{
+                        "code": "211402",
+                        "name": "连山区",//3级
+                        "childs": []
+                    }]
+                }]},
+
+                {
+                    "code": "21",
+                    "name": "222222222辽宁省",//1级
+                    "childs": [{
+                        "code": "2101",
+                        "name": "沈阳市",//2级
+                        "childs": [{
+                            "code": "210102",
+                            "name": "和平区",//3级
+                            "childs": [{
+                                "code": "211481",
+                                "name": "12345市",//4级
+                                "childs": [{
+                                    "code": "211481",
+                                    "name": "6666666市",//5级
+                                    "childs": []
+                                }]
+                            }]
+                        }, ]
+                    }, {
+                        "code": "2102",
+                        "name": "大连市",//2级
+                        "childs": [{
+                            "code": "210202",
+                            "name": "中山区",//3级
+                            "childs": []
+                        }, {
+                            "code": "210283",
+                            "name": "庄河市",//3级
+                            "childs": []
+                        }]
+                    }, {
+                        "code": "2114",
+                        "name": "葫芦岛市",//2级
+                        "childs": [{
+                            "code": "211402",
+                            "name": "连山区",//3级
+                            "childs": []
+                        }]
+                    }]}
+            ]
