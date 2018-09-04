@@ -39,6 +39,11 @@
             this._unbindEvents();
         },
 
+        switchIfFlow: function(fillFlow){
+            this.gridList.switchIfFlow(fillFlow);
+        },
+
+
         resize: function (lanes) {
             if (lanes) {
                 this.options.lanes = lanes;
@@ -199,14 +204,15 @@
             this._applyPositionToItems();
             this._removePositionHighlight();//取消高亮
 
-            //添加的语句,对解决冲突后的items进行排序并打印
-            this.gridList._sortItemsByPositionAfterSolve();
-
-            //添加语句，让item紧邻，不保持当前行
-            this.gridList._pullItemsFillGrid()
-            //更改item的排列后一定记得要显示到网格上
-            this._applyPositionToItems();
-
+            if(this.gridList._options.ifFlow == true){
+                //添加的语句,对解决冲突后的items进行排序并打印
+                // 不能使用之前解决冲突时的排序，因为那时冲突没有解决，排序不准确
+                this.gridList._sortItemsByPositionAfterSolve();
+                //添加语句，让item紧邻，不保持当前行
+                this.gridList._pullItemsFillGrid()
+                //更改item的排列后一定记得要显示到网格上
+                this._applyPositionToItems();
+            }
 
         },
 

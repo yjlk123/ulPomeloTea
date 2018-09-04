@@ -237,6 +237,13 @@
             this._updateItemPosition(item, [position.x, position.y]);//his.items中这个item更新了，且在grid里的位置也更新了
             this._resolveCollisions(item);//解决冲突
         },
+        /**
+         * 添加语句，判断是否进行items紧邻
+         * @param ifFlow
+         */
+        switchIfFlow: function(fillFlow){
+            this._options.ifFlow = fillFlow;
+        },
 
         resizeItem: function (item, size) {
             /**
