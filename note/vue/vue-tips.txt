@@ -1,0 +1,34 @@
+productivity boots
+
+二、 component registry
+
+所以我们必须区分你是否想要export default 还是不想export default.那么你的component options 将在component config 之后（under是之后还是在这个文件夹下的意思？）。再比如，一个组件甚至是没有scrip tag的，将在componentConfig之下，而不是.default之下。这就解释了为啥有时候是default,有时候不是default的情况。
+因此，现在你就可以简化引入的过程，会在用到的时候才引入，这样可以减少boundles的大小
+
+三、module registration
+vuex 能够跟踪状态,但容易让文件变得很大，有个解决办法就是类似之前在webpack里注册components那样，注册modules.通常放在index.js文件里，并且所有的js文件都在当前文件下，然后会变量所有的文件。代码里：若是文件名是index.js，则不做任何操作；通过camelCase方法获取到文件名，再将它加入到modules hash或是modules object;然后通过文件名引入这些modules,再exoort 所有的modules
+ 还有一个优化（图）：如果你喜欢namespace modules 或者想为你的所有modules设置其他的default options ,即namespaced字段可以设置为true,false表示用default，然后把它加进剩下的module options里。总之，namespace对于团队开发是有好处的。
+ 这样一来。我们的写法就比之前的简化了很多，就像这样：（图）
+
+
+radical tweaks
+1. cleaner views
+  vue-router，每次router改变，都是在watch里面监视它的变化，如有变化就将data的数据恢复到初始的状态，这是为了应对之前的页面和现在用同一个组件（？），这样就能用最小的改变来达到目的，不会重新开始一个组件，我只需要给它一个不同的data. 如果想要简化，可以去掉resetDate,watcher,把getPost()放到created里，在methods里定义它。这样就只需要初始化一次（？）还要在底下添加代码，一个<router-view>的标签，加上key属性，="$route.fullPath".   这样就表示，如果full path改变了，即使组件一样，你应该从scratch渲染。这能做到牺牲一点点的显示，而获得更好的router体验
+
+2.transparent wrappers
+见图，
+还有，若是要监听一些不是指定的事件，用focus,还要记得加.native修饰词，否则，就会监听input里面的foucus事件。加上.native表示要监听的是组件的root元素，而 这个o=root元素恰巧是input元素。
+
+但如果是这样，根元素不是input,而是个label,就没法监听到input,我的解决办法是：如图创建一个listener的computed的属性，返回一个对象，里面是this.$listeners,它存储了父组件的所有的 listeners ,然后将会覆盖掉input(?)如此我们就能不加.native，把它当成一个普通的input组件来对待。
+
+还有一个问题：如图，如果添加一个placeholder会怎样。  没有规定的属性都会以prop的方式传递到root element （？），但我猜这个不会生效。如图可以加一个inheritAttrs:false在vue components config里，表明你不想继承根元素的属性。actors是用来保存所有的不被定义为props的属性，但passed to it （？）这就避免了有的ui组件库里引入和很多要用到的属性，文件很长，这个办法就可以避免了。
+
+
+unlocked possibilities
+1.single-root components
+遇到过如图所示的错误，必须要有一个根元素，加个div就可以解决，但并不是每次都能解决，有时就是要返回多个组件对象，比如图中的navbar组件的这种分情况的组件，在router里会有问题。有个解决办法如图：functional components render可以返回元素数组
+
+
+2.rendering non-HTML
+如图，我们希望有像API一样来使用组件，如图，鼠标悬停时有针显示当前城市，这样写可以允许我们在这个maoboxcompoment里使用HTML，如图，一般情况下，用this.$parent是可以解决问题的，但在个别情况下，正如这个情况就是个别情况，this.$parent是拿不到父组件navmap组件和mapbox组件的map的，因为它们耦合很严重。解决办法如图，created,beforeDestory，你也可以加上watcher，在穿过mapboxmmarker组件或items改变时，你能检测到数据改变，并更新数据。注意代码里面，有个render函数，返回null. 这样的抽象组件让我们能够允许我们一些必要的代码，就像lists instruction，更清晰，可复用的接口（？）   
+还有slot-scope，可以用子组件的data.  如图，这样就能变成一个通用的组件，就像handlbars,ejs.你可以给它传数据，让它工作在DOM之外
